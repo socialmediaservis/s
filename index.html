@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* বেসিক সেটআপ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #020024 0%, #090979 50%, #000000 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0 40px 0; /* উপরে একটু প্যাডিং কমানো হয়েছে */
+        }
+
+        /* টপ ইনস্ট্রাকশন বাটন (নতুন) */
+        .top-instruction {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+        }
+
+        /* সার্ভিস বাটন গ্রিড */
+        .services-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .glass-btn i {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        /* ব্র্যান্ড কালার */
+        .fa-facebook { color: #1877F2; }
+        .fa-youtube { color: #FF0000; }
+        .fa-instagram { color: #E4405F; }
+        .fa-tiktok { color: #ffffff; } 
+        .fa-telegram { color: #229ED9; }
+        .fa-whatsapp { color: #25D366; }
+        .fa-spotify { color: #1DB954; }
+        .fa-linkedin { color: #0A66C2; }
+        .fa-x-twitter { color: #ffffff; }
+
+        /* ইনফো টেক্সট */
+        .bottom-info {
+            text-align: center;
+            max-width: 750px;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .intro-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .features-list {
+            text-align: left;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .features-list p {
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        .check { color: #00d2ff; margin-right: 8px; }
+
+        /* পেমেন্ট সেকশন */
+        .payment-card {
+            margin-top: 40px;
+            width: 90%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .payment-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .payment-img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .number-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .number-text {
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: #00d2ff;
+            color: #000;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        /* কাস্টম পপ-আপ (Toast) মেসেজ */
+        .custom-toast {
+            visibility: hidden;
+            min-width: 250px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+            line-height: 1.5;
+        }
+
+        .custom-toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* রেসপন্সিভ */
+        @media (max-width: 600px) {
+            .top-instruction { font-size: 0.8rem; padding: 8px 15px; margin-bottom: 20px; }
+            .services-container { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .glass-btn { padding: 15px 5px; font-size: 0.8rem; }
+            .glass-btn i { font-size: 1.6rem; }
+            .payment-card h3 { font-size: 1rem; }
+            .number-text { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-instruction">
+        আপনি যে সার্ভিসটির দাম ও বিস্তারিত জানতে চান,  <br>সেটির উপর ক্লিক করুন।
+    </div>
+
+    <main class="services-container">
+        <a href="facebook.html" class="glass-btn"><i class="fa-brands fa-facebook"></i>Facebook</a>
+        <a href="youtube.html" class="glass-btn"><i class="fa-brands fa-youtube"></i>YouTube</a>
+        <a href="instagram.html" class="glass-btn"><i class="fa-brands fa-instagram"></i>Instagram</a>
+        <a href="tiktok.html" class="glass-btn"><i class="fa-brands fa-tiktok"></i>TikTok</a>
+        <a href="telegram.html" class="glass-btn"><i class="fa-brands fa-telegram"></i>Telegram</a>
+        <a href="whatsapp.html" class="glass-btn"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a>
+        <a href="spotify.html" class="glass-btn"><i class="fa-brands fa-spotify"></i>Spotify</a>
+        <a href="linkedin.html" class="glass-btn"><i class="fa-brands fa-linkedin"></i>LinkedIn</a>
+        <a href="twitter.html" class="glass-btn"><i class="fa-brands fa-x-twitter"></i>Twitter</a>
+    </main>
+
+    <div class="bottom-info">
+        <p class="intro-text">সোশ্যাল মিডিয়ার সব ধরনের সার্ভিস এখন পাচ্ছেন একদম পাইকারি মূল্যে।
+আমি সরাসরি প্রোভাইডার থেকে সার্ভিস দিচ্ছি, তাই দামের দিক থেকে থাকছে বিশেষ সুবিধা।
+আপনি যত বেশি পরিমাণে অর্ডার করবেন, তত বেশি ডিসকাউন্ট পাবেন।
+চাইলেই এই সার্ভিসগুলো রিসেল করে নিজেও ইনকাম করতে পারবেন।
+        </p>
+        <div class="features-list">
+            <p><span class="check">✔</span> নির্ভরযোগ্য ও দ্রুত ডেলিভারি</p>
+            <p><span class="check">✔</span> কম দামে উচ্চ মানের সার্ভিস</p>
+            <p><span class="check">✔</span> রিসেলিংয়ের সুযোগ</p>
+            <p><span class="check">✔</span> বড় অর্ডারে বিশেষ ছাড়</p>
+        </div>
+    </div>
+
+    <div class="payment-card">
+        <h3>আমাদের পেমেন্ট রিসিভ করার মাধ্যম</h3>
+        <img src="https://iili.io/BNOsSjI.md.png" alt="Payment Methods" class="payment-img">
+        
+        <div class="number-box">
+            <div class="number-text">
+                <span id="target-number">01868287538</span> (পার্সোনাল)
+            </div>
+            <button class="copy-btn" onclick="copyToClipboard()">কপি করুন</button>
+        </div>
+    </div>
+
+    <div id="toastBox" class="custom-toast">
+        ভাইজান নাম্বার কপি করা হয়েছে 😊<br>এখন টাকা পাঠিয়ে আমাকে জানান।
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const number = document.getElementById("target-number").innerText;
+            navigator.clipboard.writeText(number).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toastBox");
+            toast.className = "custom-toast show";
+            setTimeout(function(){ 
+                toast.className = toast.className.replace("show", ""); 
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
