@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #020024 0%, #090979 50%, #000000 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0 50px 0;
+        }
+
+        /* হেডার ও লোগো */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 800px;
+            padding: 0 15px;
+        }
+
+        .lin-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px; 
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background-color: #fff;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0A66C2; /* লিংকডইন ব্র্যান্ড কালার */
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .page-subtitle {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 8px;
+            font-weight: 400;
+        }
+
+        /* সার্ভিস বাটন গ্রিড */
+        .services-grid {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 15px;
+        }
+
+        .service-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px 20px; 
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; 
+            gap: 15px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .service-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+            border-color: #0A66C2; /* হোভার করলে লিংকডইন কালার বর্ডার */
+        }
+
+        .service-btn i {
+            color: #0A66C2;
+            font-size: 1.3rem;
+            width: 30px; 
+            text-align: center;
+        }
+
+        /* অর্ডার ফর্ম সেকশন */
+        .order-container {
+            display: none; 
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
+        }
+
+        .order-desc {
+            font-size: 1.1rem;
+            color: #00d2ff;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .qty-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 20px;
+        }
+
+        .qty-input:focus {
+            border-color: #0A66C2;
+        }
+
+        .price-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .price-display span {
+            color: #0A66C2;
+            font-size: 1.5rem;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .order-btn, .back-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+        }
+
+        .order-btn {
+            background: #25D366; 
+            color: #fff;
+        }
+
+        .order-btn:hover {
+            background: #1ebc5a;
+            transform: scale(1.05);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* পেমেন্ট সেকশন */
+        .payment-card {
+            margin-top: 20px;
+            width: 90%;
+            max-width: 380px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+        .payment-card h3 { font-size: 1.1rem; margin-bottom: 15px; font-weight: 500; }
+        .payment-img { width: 100%; max-width: 250px; border-radius: 8px; margin-bottom: 15px; }
+        .number-box {
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .number-text { font-size: 0.95rem; font-weight: 600; }
+        .copy-btn {
+            background: #00d2ff; color: #000; border: none; padding: 6px 14px;
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s;
+        }
+        .copy-btn:hover { background: #fff; transform: scale(1.05); }
+
+        /* টোস্ট মেসেজ */
+        .custom-toast {
+            visibility: hidden; min-width: 250px; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 10px;
+            padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px;
+            transform: translateX(-50%); font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0; transition: opacity 0.5s, bottom 0.5s; line-height: 1.5;
+        }
+        .custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-header">
+        <img src="lin.png" alt="LinkedIn" class="lin-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg'">
+        <div class="page-title">লিংকডইন সার্ভিস</div>
+        <div class="page-subtitle">বর্তমান দাম জানার জন্য সার্ভিসের উপর ক্লিক করুন।</div>
+    </div>
+
+    <div class="services-grid" id="serviceGrid">
+        </div>
+
+    <div class="order-container" id="orderForm">
+        <div class="order-desc" id="serviceDesc">সার্ভিসের বিস্তারিত এখানে দেখাবে</div>
+        <label class="input-label" id="inputLabel">আপনি কত হাজার নিতে চান এখানে লিখুন</label>
+        <input type="number" class="qty-input" id="qtyInput" placeholder="সংখ্যা লিখুন..." oninput="calculatePrice()">
+        
+        <div class="price-display">
+            মোট দাম: <span id="totalPrice">0</span> টাকা
+        </div>
+
+        <div class="action-btns">
+            <button class="back-btn" onclick="goBack()">ফিরে যান</button>
+            <button class="order-btn" onclick="placeOrder()"><i class="fa-brands fa-whatsapp"></i> অর্ডার করুন</button>
+        </div>
+    </div>
+
+    <div class="payment-card">
+        <h3>আমাদের পেমেন্ট রিসিভ করার মাধ্যম</h3>
+        <img src="https://iili.io/BNOsSjI.md.png" alt="Payment Methods" class="payment-img">
+        <div class="number-box">
+            <div class="number-text"><span id="target-number">01868287538</span> (পার্সোনাল)</div>
+            <button class="copy-btn" onclick="copyToClipboard()">কপি করুন</button>
+        </div>
+    </div>
+
+    <div id="toastBox" class="custom-toast">
+        ভাইজান নাম্বার কপি করা হয়েছে 😊<br>এখন টাকা পাঠিয়ে আমাকে জানান।
+    </div>
+
+    <script>
+        // লিংকডইন সার্ভিসের ডেটাবেইজ
+        const services = [
+            { id: 1, name: "প্রোফাইল ফলোয়ার", rate: 3000, desc: "লিংকডইন প্রোফাইল ফলোয়ার প্রতি হাজার মাত্র ৩০০০ টাকা।" }
+        ];
+
+        let currentActiveService = null;
+
+        // বাটনগুলো রেন্ডার করা
+        const grid = document.getElementById('serviceGrid');
+        services.forEach(srv => {
+            let btn = document.createElement('div');
+            btn.className = 'service-btn';
+            btn.innerHTML = `<i class="fa-brands fa-linkedin"></i> ${srv.name}`;
+            btn.onclick = () => openService(srv.id);
+            grid.appendChild(btn);
+        });
+
+        // সার্ভিসে ক্লিক করলে যা হবে
+        function openService(id) {
+            currentActiveService = services.find(s => s.id === id);
+            
+            document.getElementById('serviceGrid').style.display = 'none';
+            document.getElementById('orderForm').style.display = 'block';
+            
+            document.getElementById('serviceDesc').innerText = currentActiveService.desc;
+            document.getElementById('inputLabel').innerText = "আপনি কত নিতে চান এখানে লিখুন";
+
+            // আগের ডাটা রিসেট করা
+            document.getElementById('qtyInput').value = '';
+            document.getElementById('totalPrice').innerText = '0';
+        }
+
+        // ফিরে যান বাটন
+        function goBack() {
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('serviceGrid').style.display = 'grid';
+            currentActiveService = null;
+        }
+
+        // দাম হিসাব করা (প্রতি হাজার হিসেবে)
+        function calculatePrice() {
+            if(!currentActiveService) return;
+            
+            let qty = parseFloat(document.getElementById('qtyInput').value) || 0;
+            
+            // হিসাব: (সংখ্যা / ১০০০) * রেট
+            let total = (qty / 1000) * currentActiveService.rate;
+
+            document.getElementById('totalPrice').innerText = total > 0 ? total.toFixed(2).replace('.00', '') : '0';
+        }
+
+        // অর্ডার করুন বাটন
+        function placeOrder() {
+            window.location.href = 'https://wa.me/+8801759623887';
+        }
+
+        // পেমেন্ট কপি সিস্টেম
+        function copyToClipboard() {
+            const number = document.getElementById("target-number").innerText;
+            navigator.clipboard.writeText(number).then(() => {
+                const toast = document.getElementById("toastBox");
+                toast.className = "custom-toast show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
