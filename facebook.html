@@ -46,7 +46,6 @@
             text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        /* নতুন যোগ করা সাবটাইটেল */
         .page-subtitle {
             font-size: 0.95rem;
             color: rgba(255, 255, 255, 0.8);
@@ -60,7 +59,7 @@
             max-width: 900px;
             padding: 0 15px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* কলাম সাইজ একটু বাড়ানো হয়েছে */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 15px;
         }
 
@@ -70,10 +69,10 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
-            padding: 15px 20px; /* প্যাডিং ঠিক করা হয়েছে */
+            padding: 15px 20px; 
             display: flex;
             align-items: center;
-            justify-content: flex-start; /* সেন্টার থেকে লেফটে আনা হয়েছে */
+            justify-content: flex-start; 
             gap: 15px;
             cursor: pointer;
             color: #fff;
@@ -92,7 +91,7 @@
         .service-btn i {
             color: #1877F2;
             font-size: 1.3rem;
-            width: 30px; /* আইকনের নির্দিষ্ট জায়গা, যেন লেখাগুলো সব সোজা থাকে */
+            width: 30px; 
             text-align: center;
         }
 
@@ -150,13 +149,38 @@
             background: rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* একটু কমানো হয়েছে রিসিট বাটনের জন্য */
             border: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
         .price-display span {
             color: #00d2ff;
             font-size: 1.5rem;
+        }
+
+        /* রিসিট বাটন ডিজাইন */
+        .receipt-btn {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            color: #ffffff;
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+        }
+
+        .receipt-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+        }
+
+        .receipt-btn i {
+            margin-right: 8px;
         }
 
         .action-btns {
@@ -254,6 +278,8 @@
             মোট দাম: <span id="totalPrice">0</span> টাকা
         </div>
 
+        <button class="receipt-btn" onclick="downloadReceipt()"><i class="fa-solid fa-file-arrow-down"></i> রিসিট ডাউনলোড করুন</button>
+
         <div class="action-btns">
             <button class="back-btn" onclick="goBack()">ফিরে যান</button>
             <button class="order-btn" onclick="placeOrder()"><i class="fa-brands fa-whatsapp"></i> অর্ডার করুন</button>
@@ -344,6 +370,43 @@
             }
 
             document.getElementById('totalPrice').innerText = total > 0 ? total.toFixed(2).replace('.00', '') : '0';
+        }
+
+        // রিসিট ডাউনলোড করার ফাংশন
+        function downloadReceipt() {
+            if(!currentActiveService) return;
+            
+            let qty = document.getElementById('qtyInput').value;
+            let total = document.getElementById('totalPrice').innerText;
+
+            if(!qty || qty <= 0 || total === '0') {
+                alert("দয়া করে সঠিক পরিমাণ লিখুন!");
+                return;
+            }
+
+            // রিসিটের টেক্সট ফরম্যাট তৈরি করা
+            let date = new Date().toLocaleString('bn-BD');
+            let receiptContent = `======================================
+      SM SOCIAL MEDIA SERVICES
+              অর্ডার রিসিট
+======================================
+তারিখ: ${date}
+
+সার্ভিসের নাম: ${currentActiveService.name}
+অর্ডারের পরিমাণ: ${qty} ${currentActiveService.isPerPiece ? 'পিস' : ''}
+মোট বিল: ${total} টাকা
+
+======================================
+অর্ডার করার জন্য ধন্যবাদ! 
+টাকা পাঠিয়ে আমাদের হোয়াটসঅ্যাপে রিসিটটি দিন।
+======================================`;
+
+            // টেক্সট ফাইল তৈরি করে ডাউনলোড করা
+            const blob = new Blob([receiptContent], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Receipt_${currentActiveService.name}.txt`;
+            link.click();
         }
 
         // অর্ডার করুন বাটন
