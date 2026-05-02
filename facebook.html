@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -102,7 +103,6 @@
             max-width: 500px;
             background: rgba(255, 255, 255, 0.07);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 30px 20px;
@@ -139,9 +139,7 @@
             margin-bottom: 20px;
         }
 
-        .qty-input:focus {
-            border-color: #00d2ff;
-        }
+        .qty-input:focus { border-color: #00d2ff; }
 
         .price-display {
             font-size: 1.2rem;
@@ -149,7 +147,7 @@
             background: rgba(0, 0, 0, 0.3);
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 15px; /* একটু কমানো হয়েছে রিসিট বাটনের জন্য */
+            margin-bottom: 15px;
             border: 1px dashed rgba(255, 255, 255, 0.2);
         }
 
@@ -160,7 +158,7 @@
 
         /* রিসিট বাটন ডিজাইন */
         .receipt-btn {
-            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            background: linear-gradient(135deg, #ff9900 0%, #ff5500 100%);
             color: #ffffff;
             width: 100%;
             padding: 12px 20px;
@@ -170,17 +168,13 @@
             font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 100, 0, 0.3);
         }
 
         .receipt-btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
-        }
-
-        .receipt-btn i {
-            margin-right: 8px;
+            box-shadow: 0 6px 20px rgba(255, 100, 0, 0.5);
         }
 
         .action-btns {
@@ -200,25 +194,10 @@
             flex: 1;
         }
 
-        .order-btn {
-            background: #25D366; 
-            color: #fff;
-        }
-
-        .order-btn:hover {
-            background: #1ebc5a;
-            transform: scale(1.05);
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+        .order-btn { background: #25D366; color: #fff; }
+        .order-btn:hover { background: #1ebc5a; transform: scale(1.05); }
+        .back-btn { background: rgba(255, 255, 255, 0.1); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
         /* পেমেন্ট সেকশন */
         .payment-card {
@@ -235,26 +214,76 @@
         }
         .payment-card h3 { font-size: 1.1rem; margin-bottom: 15px; font-weight: 500; }
         .payment-img { width: 100%; max-width: 250px; border-radius: 8px; margin-bottom: 15px; }
-        .number-box {
-            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .number-box { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
         .number-text { font-size: 0.95rem; font-weight: 600; }
-        .copy-btn {
-            background: #00d2ff; color: #000; border: none; padding: 6px 14px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s;
-        }
+        .copy-btn { background: #00d2ff; color: #000; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s; }
         .copy-btn:hover { background: #fff; transform: scale(1.05); }
 
         /* টোস্ট মেসেজ */
         .custom-toast {
-            visibility: hidden; min-width: 250px; background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 10px;
-            padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px;
-            transform: translateX(-50%); font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0; transition: opacity 0.5s, bottom 0.5s; line-height: 1.5;
+            visibility: hidden; min-width: 250px; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 10px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.95rem; border: 1px solid rgba(255, 255, 255, 0.2); opacity: 0; transition: opacity 0.5s, bottom 0.5s;
         }
         .custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+
+        /* গ্রাফিক্স টিকেট মোডাল ডিজাইন */
+        .ticket-modal-overlay {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center; align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        .ticket-box {
+            background: #ffffff;
+            width: 320px;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            color: #000000;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            /* টিকেটের ড্যাশ বর্ডার ইফেক্ট */
+            border: 2px dashed #1877F2;
+            margin-bottom: 20px;
+            background-image: radial-gradient(circle at 0 50%, rgba(0,0,0,0.8) 10px, transparent 11px), radial-gradient(circle at 100% 50%, rgba(0,0,0,0.8) 10px, transparent 11px);
+        }
+
+        .ticket-box::before, .ticket-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            background: #1a1a2e; /* ব্যাকগ্রাউন্ডের কালারের সাথে ম্যাচ করে যেন কাটা মনে হয় */
+            border-radius: 50%;
+        }
+        .ticket-box::before { left: -10px; transform: translateY(-50%); }
+        .ticket-box::after { right: -10px; transform: translateY(-50%); }
+
+        .t-header h2 { font-size: 1.4rem; color: #1877F2; margin-bottom: 5px; font-weight: 800;}
+        .t-header p { font-size: 0.85rem; color: #666; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; }
+        
+        .t-service { font-size: 1.2rem; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .t-qty { font-size: 2.5rem; font-weight: 900; color: #1877F2; margin-bottom: 10px; line-height: 1; }
+        
+        .t-price {
+            font-size: 1.2rem; font-weight: bold;
+            background: #f0f7ff; padding: 12px;
+            border-radius: 8px; color: #000;
+            border: 1px solid #cce5ff;
+        }
+        .t-price span { color: #d93025; font-size: 1.4rem; }
+
+        .t-footer { margin-top: 15px; font-size: 0.8rem; color: #777; border-top: 1px dashed #ddd; padding-top: 10px; }
+
+        .ticket-actions { display: flex; gap: 10px; }
+        .btn-download-img { background: #1877F2; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-close-modal { background: #555; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-download-img:hover { background: #145dbf; }
+        .btn-close-modal:hover { background: #333; }
 
     </style>
 </head>
@@ -266,8 +295,7 @@
         <div class="page-subtitle">বর্তমান দাম জানার জন্য সার্ভিসের উপর ক্লিক করুন।</div>
     </div>
 
-    <div class="services-grid" id="serviceGrid">
-        </div>
+    <div class="services-grid" id="serviceGrid"></div>
 
     <div class="order-container" id="orderForm">
         <div class="order-desc" id="serviceDesc">সার্ভিসের বিস্তারিত এখানে দেখাবে</div>
@@ -278,7 +306,7 @@
             মোট দাম: <span id="totalPrice">0</span> টাকা
         </div>
 
-        <button class="receipt-btn" onclick="downloadReceipt()"><i class="fa-solid fa-file-arrow-down"></i> রিসিট ডাউনলোড করুন</button>
+        <button class="receipt-btn" onclick="openTicketModal()"><i class="fa-solid fa-receipt"></i> রিসিট নিন</button>
 
         <div class="action-btns">
             <button class="back-btn" onclick="goBack()">ফিরে যান</button>
@@ -299,8 +327,32 @@
         ভাইজান নাম্বার কপি করা হয়েছে 😊<br>এখন টাকা পাঠিয়ে আমাকে জানান।
     </div>
 
+    <div class="ticket-modal-overlay" id="ticketModal">
+        <div class="ticket-box" id="captureTicket">
+            <div class="t-header">
+                <h2>SM SERVICES</h2>
+                <p>অর্ডার কনফার্মেশন টিকেট</p>
+            </div>
+            
+            <div class="t-service" id="tktServiceName">ফেসবুক ফলোয়ার</div>
+            <div class="t-qty" id="tktQty">0</div>
+            
+            <div class="t-price">
+                মোট দাম: <span id="tktTotal">0</span> টাকা
+            </div>
+
+            <div class="t-footer">
+                অর্ডার নিশ্চিত করতে এই রিসিটটির ছবি হোয়াটসঅ্যাপে পাঠান।<br>ধন্যবাদ!
+            </div>
+        </div>
+        
+        <div class="ticket-actions">
+            <button class="btn-close-modal" onclick="closeTicketModal()">বন্ধ করুন</button>
+            <button class="btn-download-img" onclick="downloadImageTicket()"><i class="fa-solid fa-download"></i> ছবি সেভ করুন</button>
+        </div>
+    </div>
+
     <script>
-        // সার্ভিসের ডেটাবেইজ
         const services = [
             { id: 1, name: "ফেসবুক হিডেন ফলোয়ার", rate: 25, isPerPiece: false, desc: "ফেসবুক হিডেন ফলোয়ার প্রতি হাজার মাত্র ২৫ টাকা।" },
             { id: 2, name: "ফেসবুক ভিয়েতনাম ফলোয়ার", rate: 100, isPerPiece: false, desc: "ফেসবুক ভিয়েতনাম ফলোয়ার প্রতি হাজার মাত্র ১০০ টাকা।" },
@@ -319,7 +371,6 @@
 
         let currentActiveService = null;
 
-        // বাটনগুলো রেন্ডার করা
         const grid = document.getElementById('serviceGrid');
         services.forEach(srv => {
             let btn = document.createElement('div');
@@ -329,37 +380,30 @@
             grid.appendChild(btn);
         });
 
-        // সার্ভিসে ক্লিক করলে যা হবে
         function openService(id) {
             currentActiveService = services.find(s => s.id === id);
-            
             document.getElementById('serviceGrid').style.display = 'none';
             document.getElementById('orderForm').style.display = 'block';
-            
             document.getElementById('serviceDesc').innerText = currentActiveService.desc;
             
             if(currentActiveService.isPerPiece) {
-                document.getElementById('inputLabel').innerText = "আপনি কত গুলো স্টার নিতে চান এখানে লিখুন";
+                document.getElementById('inputLabel').innerText = "আপনি কত গুলো নিতে চান এখানে লিখুন";
             } else {
                 document.getElementById('inputLabel').innerText = "আপনি কত হাজার নিতে চান এখানে লিখুন";
             }
 
-            // আগের ডাটা রিসেট করা
             document.getElementById('qtyInput').value = '';
             document.getElementById('totalPrice').innerText = '0';
         }
 
-        // ফিরে যান বাটন
         function goBack() {
             document.getElementById('orderForm').style.display = 'none';
             document.getElementById('serviceGrid').style.display = 'grid';
             currentActiveService = null;
         }
 
-        // দাম হিসাব করা
         function calculatePrice() {
             if(!currentActiveService) return;
-            
             let qty = parseFloat(document.getElementById('qtyInput').value) || 0;
             let total = 0;
 
@@ -368,12 +412,11 @@
             } else {
                 total = (qty / 1000) * currentActiveService.rate;
             }
-
             document.getElementById('totalPrice').innerText = total > 0 ? total.toFixed(2).replace('.00', '') : '0';
         }
 
-        // রিসিট ডাউনলোড করার ফাংশন
-        function downloadReceipt() {
+        /* মোডাল ও টিকেট ছবি ডাউনলোডের কোড */
+        function openTicketModal() {
             if(!currentActiveService) return;
             
             let qty = document.getElementById('qtyInput').value;
@@ -384,37 +427,38 @@
                 return;
             }
 
-            // রিসিটের টেক্সট ফরম্যাট তৈরি করা
-            let date = new Date().toLocaleString('bn-BD');
-            let receiptContent = `======================================
-      SM SOCIAL MEDIA SERVICES
-              অর্ডার রিসিট
-======================================
-তারিখ: ${date}
+            // টিকেটে ভ্যালু বসানো
+            document.getElementById('tktServiceName').innerText = currentActiveService.name;
+            document.getElementById('tktQty').innerText = qty;
+            document.getElementById('tktTotal').innerText = total;
 
-সার্ভিসের নাম: ${currentActiveService.name}
-অর্ডারের পরিমাণ: ${qty} ${currentActiveService.isPerPiece ? 'পিস' : ''}
-মোট বিল: ${total} টাকা
-
-======================================
-অর্ডার করার জন্য ধন্যবাদ! 
-টাকা পাঠিয়ে আমাদের হোয়াটসঅ্যাপে রিসিটটি দিন।
-======================================`;
-
-            // টেক্সট ফাইল তৈরি করে ডাউনলোড করা
-            const blob = new Blob([receiptContent], { type: "text/plain;charset=utf-8" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `Receipt_${currentActiveService.name}.txt`;
-            link.click();
+            // মোডাল ওপেন করা
+            document.getElementById('ticketModal').style.display = 'flex';
         }
 
-        // অর্ডার করুন বাটন
+        function closeTicketModal() {
+            document.getElementById('ticketModal').style.display = 'none';
+        }
+
+        function downloadImageTicket() {
+            const ticketElement = document.getElementById('captureTicket');
+            
+            // html2canvas দিয়ে ছবি তৈরি করা
+            html2canvas(ticketElement, {backgroundColor: null, scale: 2}).then(canvas => {
+                let link = document.createElement('a');
+                link.download = `Ticket_${currentActiveService.name}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // ডাউনলোড শেষে মোডাল অটো বন্ধ হয়ে যাবে
+                setTimeout(closeTicketModal, 500); 
+            });
+        }
+
         function placeOrder() {
             window.location.href = 'https://wa.me/+8801759623887';
         }
 
-        // পেমেন্ট কপি সিস্টেম
         function copyToClipboard() {
             const number = document.getElementById("target-number").innerText;
             navigator.clipboard.writeText(number).then(() => {
