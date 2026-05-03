@@ -326,8 +326,12 @@
 
     <div class="order-container" id="orderForm">
         <div class="order-desc" id="serviceDesc">সার্ভিসের বিস্তারিত এখানে দেখাবে</div>
+        
         <label class="input-label" id="inputLabel">আপনি কত নিতে চান এখানে লিখুন</label>
         <input type="number" class="qty-input" id="qtyInput" placeholder="সংখ্যা লিখুন..." oninput="calculatePrice()">
+        
+        <label class="input-label">আপনার প্রোফাইল/পেইজ বা পোস্টের লিংক দিন</label>
+        <input type="text" class="qty-input" id="linkInput" placeholder="লিংক এখানে পেস্ট করুন...">
         
         <div class="price-display">
             মোট দাম: <span id="totalPrice">0</span> টাকা
@@ -395,7 +399,7 @@
             { id: 4, name: "ফেসবুক বাংলাদেশের ফলোয়ার", rate: 200, isPerPiece: false, desc: "ফেসবুক বাংলাদেশের ফলোয়ার প্রতি হাজার মাত্র ২০০ টাকা।" },
             { id: 5, name: "ফেসবুক হিডেন কমেন্ট", rate: 50, isPerPiece: false, desc: "ফেসবুক হিডেন কমেন্ট প্রতি হাজার মাত্র ৫০ টাকা।" },
             { id: 6, name: "ফেসবুক বট আইডি কমেন্ট", rate: 400, isPerPiece: false, desc: "ফেসবুক বট আইডি কমেন্ট প্রতি হাজার মাত্র ৪০০ টাকা।" },
-            { id: 7, name: "ফেসবুক বাংলাদেশ আইডি কমেন্ট", rate: 800, isPerPiece: false, desc: "ফেসবুক বাংলা কমেন্ট প্রতি হাজার মাত্র8০০ টাকা।" },
+            { id: 7, name: "ফেসবুক বাংলাদেশ আইডি কমেন্ট", rate: 800, isPerPiece: false, desc: "ফেসবুক বাংলা কমেন্ট প্রতি হাজার মাত্র ৮০০ টাকা।" },
             { id: 8, name: "ফেসবুক পোস্ট রিয়েক্ট বট আইডি", rate: 50, isPerPiece: false, desc: "ফেসবুক পোস্ট রিয়েক্ট প্রতি হাজার মাত্র ৫০ টাকা।" },
             { id: 9, name: "ফেসবুক পোস্ট রিয়েক্ট বাংলা আইডি", rate: 150, isPerPiece: false, desc: "ফেসবুক বাংলা রিয়েক্ট প্রতি হাজার মাত্র ১৫০ টাকা।" },
             { id: 10, name: "ফেসবুক পোস্ট শেয়ার", rate: 10, isPerPiece: false, desc: "ফেসবুক পোস্ট শেয়ার প্রতি হাজার মাত্র ১০ টাকা।" },
@@ -427,7 +431,9 @@
                 document.getElementById('inputLabel').innerText = "আপনি কত হাজার নিতে চান এখানে লিখুন";
             }
 
+            // নতুন ফর্ম ওপেন হলে পুরনো ডাটা মুছে যাবে
             document.getElementById('qtyInput').value = '';
+            document.getElementById('linkInput').value = '';
             document.getElementById('totalPrice').innerText = '0';
         }
 
@@ -455,9 +461,14 @@
             
             let qty = document.getElementById('qtyInput').value;
             let total = document.getElementById('totalPrice').innerText;
+            let link = document.getElementById('linkInput').value.trim();
 
             if(!qty || qty <= 0 || total === '0') {
                 alert("দয়া করে সঠিক পরিমাণ লিখুন!");
+                return;
+            }
+            if(!link) {
+                alert("দয়া করে আপনার প্রোফাইল/পেইজ বা পোস্টের লিংক দিন!");
                 return;
             }
 
@@ -510,7 +521,7 @@
             });
         }
 
-        // হোয়াটসঅ্যাপের অটোমেটিক মেসেজ ফিচার
+        // হোয়াটসঅ্যাপের অটোমেটিক মেসেজ ফিচার (লিংক সহ)
         function placeOrder() {
             if(!currentActiveService) {
                 alert("দয়া করে আগে একটি সার্ভিস নির্বাচন করুন।");
@@ -519,13 +530,20 @@
 
             let qty = document.getElementById('qtyInput').value;
             let total = document.getElementById('totalPrice').innerText;
+            let link = document.getElementById('linkInput').value.trim();
 
             if(!qty || qty <= 0 || total === '0') {
                 alert("অর্ডার করার আগে দয়া করে সঠিক পরিমাণ লিখুন!");
                 return;
             }
+            if(!link) {
+                alert("অর্ডার করার আগে দয়া করে আপনার লিংক দিন!");
+                return;
+            }
 
-            let message = `আসসালামু আলাইকুম ভাই, আমি আপনার ওয়েবসাইট থেকে একটি অর্ডার করতে চাই:\n\n📌 সার্ভিসের নাম: ${currentActiveService.name}\n📊 পরিমাণ: ${qty}\n💵 মোট দাম: ${total} টাকা\n\nআমি কি এই নাম্বারে পেমেন্ট করবো?`;
+            // আপনার দেওয়া হুবহু ফরম্যাট অনুযায়ী হোয়াটসঅ্যাপ মেসেজ
+            let message = `আসসালামু আলাইকুম ভাই, আমি আপনার ওয়েবসাইট থেকে একটি অর্ডার করতে চাই:\n\nসার্ভিসের নাম: ${currentActiveService.name}\nপরিমাণ: ${qty}\nমোট দাম: ${total} টাকা\n\n01868287538\nওয়েবসাইটে দেওয়া আপনার এই নাম্বারে আমি সেন্ড মানি করে দিচ্ছি।\nআমার এই লিঙ্কে আপনি সার্ভিসগুলো পাঠিয়ে দিবেন ( ${link} )\nধন্যবাদ ভাই।`;
+            
             let encodedMessage = encodeURIComponent(message);
             window.location.href = `https://wa.me/+8801759623887?text=${encodedMessage}`;
         }
